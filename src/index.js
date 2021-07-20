@@ -38,7 +38,28 @@ const MORSE_TABLE = {
 };
 
 function decode(expr) {
-    // write your solution here
+    const codeSymbols = {
+        10: '.',
+        11: '-'
+    }
+
+    const delimiterOnLength = (str, num) => {
+        const res = [];
+        for (let i = 0; i < str.length; i += num) {
+            res.push(str.substr(i, num));
+        }
+        return res;
+    }
+
+    let wordsArr = expr.split('**********');
+    wordsArr = wordsArr.map(i => delimiterOnLength(i, 10));
+    wordsArr = wordsArr.map(i => i.map(e => delimiterOnLength(e, 2).filter(e => e !== '00').map(e => codeSymbols[e]).join('')));
+
+    wordsArr = wordsArr.map(i => i.map(e => MORSE_TABLE[e]));
+    wordsArr = wordsArr.map(i => i.join(''));
+
+    return wordsArr.join(' ')
+
 }
 
 module.exports = {
